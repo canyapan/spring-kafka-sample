@@ -1,6 +1,9 @@
 server:
   shutdown: graceful
+
 management:
+  server:
+    port: 8090
   endpoints:
     web:
       exposure:
