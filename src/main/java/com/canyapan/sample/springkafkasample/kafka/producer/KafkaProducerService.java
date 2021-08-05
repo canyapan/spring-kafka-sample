@@ -26,7 +26,7 @@ public class KafkaProducerService {
                     = kafkaTemplate.send(topic, message);
 
             listenableFuture.addCallback(
-                    result -> log.debug("Published msg: {}", message),
+                    result -> log.info("Published msg: {}", message),
                     cause -> log.error(String.format("Failed to publish msg: %s", message), cause));
         } catch (KafkaException e) {
             log.error(String.format("Failed to publish msg: %s", message), e);

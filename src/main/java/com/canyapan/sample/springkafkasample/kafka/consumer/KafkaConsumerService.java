@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaConsumerService {
 
-    @KafkaListener(topics = {"${kafka.topic}"})
+    @KafkaListener(topics = {"${kafka.topic2}"})
     public void consume(final String message) {
         log.info("Received message: {}", message);
     }

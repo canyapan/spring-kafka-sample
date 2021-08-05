@@ -11,15 +11,17 @@ management:
 
 spring:
   kafka:
+    bootstrap-servers: localhost:9092
     consumer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringDeserializer
       value-serializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: spring-kafka-sample
     producer:
-      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    streams:
+      application-id: spring-kafka-sample-stream
 
 kafka:
   topic: com.canyapan.sample.my-topic
+  topic2: com.caxnyapan.sample.my-topic2
