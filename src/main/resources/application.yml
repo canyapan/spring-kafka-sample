@@ -13,8 +13,9 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
       group-id: spring-kafka-sample
     producer:
       bootstrap-servers: localhost:9092
@@ -23,3 +24,13 @@ spring:
 
 kafka:
   topic: com.canyapan.sample.my-topic
+  parallel.consumer.topic: com.canyapan.sample.my-parallel-topic
+
+feature:
+  kafka:
+    consumer:
+      enabled: true
+    parallel-consumer:
+      enabled: true
+    message-generator:
+      enabled: true

@@ -1,0 +1,9 @@
+
+feature:
+  kafka:
+    consumer:
+      enabled: false
+    parallel-consumer:
+      enabled: false
+    message-generator:
+      enabled: false

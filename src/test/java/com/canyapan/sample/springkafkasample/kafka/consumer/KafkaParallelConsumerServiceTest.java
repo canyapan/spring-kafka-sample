@@ -17,6 +17,7 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -29,14 +30,15 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
+@DirtiesContext
 @ActiveProfiles("test")
-@EmbeddedKafka(topics = {"${kafka.topic}"})
+@EmbeddedKafka(topics = {"${kafka.parallel.consumer.topic}"})
 @TestPropertySource(properties = {
         "spring.kafka.consumer.bootstrap-servers=${spring.embedded.kafka.brokers}",
-        "feature.kafka.consumer.enabled=true"})
-class KafkaConsumerServiceTest {
+        "feature.kafka.parallel-consumer.enabled=true"})
+class KafkaParallelConsumerServiceTest {
 
-    @Value("${kafka.topic}")
+    @Value("${kafka.parallel.consumer.topic}")
     private String topic;
 
     @MockitoBean

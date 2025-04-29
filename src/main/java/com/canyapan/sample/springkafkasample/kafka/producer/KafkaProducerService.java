@@ -2,12 +2,12 @@ package com.canyapan.sample.springkafkasample.kafka.producer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -16,18 +16,20 @@ public class KafkaProducerService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${kafka.topic}")
-    private String topic;
 
-    public void publish(final String message) {
+    public void publish(final String topic, final String key, final String message) {
 
         try {
-            final ListenableFuture<SendResult<String, String>> listenableFuture
-                    = kafkaTemplate.send(topic, message);
+            final CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, key, message);
 
-            listenableFuture.addCallback(
-                    result -> log.debug("Published msg: {}", message),
-                    cause -> log.error(String.format("Failed to publish msg: %s", message), cause));
+            future.whenCompleteAsync((result, cause) -> {
+                if (null != cause) {
+                    log.error("Failed to publish key: %s msg: %s".formatted(key, message), cause);
+                    return;
+                }
+
+                log.debug("Published key: {}. msg: {}, result: {}", key, message, result);
+            });
         } catch (KafkaException e) {
             log.error(String.format("Failed to publish msg: %s", message), e);
         }
